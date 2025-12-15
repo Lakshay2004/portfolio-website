@@ -207,12 +207,16 @@ document.addEventListener('DOMContentLoaded', function() {
     staggerAnimation('.project-tags .tag', 50);
 
     // ============================================
-    // Mouse Cursor Trail Effect (Optional)
+    // Mouse Cursor Trail Effect (Optional) - Throttled for Performance
     // ============================================
-    let cursorTrail = [];
-    const maxTrailLength = 10;
-
+    let lastTrailTime = 0;
+    const trailInterval = 50; // milliseconds between trail dots
+    
     document.addEventListener('mousemove', (e) => {
+        const now = Date.now();
+        if (now - lastTrailTime < trailInterval) return;
+        lastTrailTime = now;
+        
         // Create cursor trail dot
         const dot = document.createElement('div');
         dot.className = 'cursor-trail';
@@ -230,13 +234,6 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         document.body.appendChild(dot);
-        cursorTrail.push(dot);
-        
-        // Remove old trail dots
-        if (cursorTrail.length > maxTrailLength) {
-            const oldDot = cursorTrail.shift();
-            oldDot.remove();
-        }
         
         // Remove dot after animation
         setTimeout(() => {
@@ -244,13 +241,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     });
 
-    // Add CSS animation for cursor trail
+    // ============================================
+    // Consolidated CSS Animations
+    // ============================================
     const style = document.createElement('style');
     style.textContent = `
         @keyframes fadeDot {
             to {
                 opacity: 0;
                 transform: scale(2);
+            }
+        }
+        
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
             }
         }
     `;
@@ -270,23 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
             text.style.animation = 'none';
         });
     });
-
-    // Add gradient shift animation
-    const gradientStyle = document.createElement('style');
-    gradientStyle.textContent = `
-        @keyframes gradient-shift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-    `;
-    document.head.appendChild(gradientStyle);
 
     // ============================================
     // Smooth Reveal for Navigation Links
@@ -334,18 +335,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 600);
         });
     });
-
-    // Add ripple animation
-    const rippleStyle = document.createElement('style');
-    rippleStyle.textContent = `
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(rippleStyle);
 
     // ============================================
     // Social Links Bounce Animation

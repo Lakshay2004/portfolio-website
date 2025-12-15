@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         3: {
             title: 'Sonic Sense - AI Voice Assistant Module',
-            description: 'ESP32-based voice recognition module leveraging I²S audio interface and machine learning for offline speech processing and intelligent voice-controlled automation. This project demonstrates edge AI capabilities with local processing, ensuring privacy and low-latency response times.',
+            description: 'ESP32-based voice recognition module leveraging I&sup2;S audio interface and machine learning for offline speech processing and intelligent voice-controlled automation. This project demonstrates edge AI capabilities with local processing, ensuring privacy and low-latency response times.',
             tags: ['IoT', 'Machine Learning', 'Voice Recognition', 'STT/TTS'],
             icon: 'fa-microphone-alt'
         }
